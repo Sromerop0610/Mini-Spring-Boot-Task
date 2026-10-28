@@ -1,17 +1,46 @@
-# Aprendizaje — Mini Tasks
 
-## Test de normalización del título
+# Aprendizaje — Mini Spring Boot Task
 
-Primero se creó el test `createStripsTitleEdges()` para comprobar que, al crear una tarea con el título `"  Repasar Spring Boot  "`, se eliminaran los espacios del principio y del final. El test también comprueba que el atributo `done` sea `false`.
+## 1. Listado y creación de tareas en V1
 
-Al ejecutar el test por primera vez, falló porque el servicio guardaba el título original, incluidos los espacios sobrantes.
+Se implementó el controlador `TaskControllerV1`, con la ruta `/v1/tasks`.
 
-Para solucionarlo, se modificó `TaskService` para utilizar el método `strip()` sobre el título antes de guardar la tarea.
+- `GET /v1/tasks` devuelve el listado de tareas.
+- `POST /v1/tasks` crea una tarea a partir de `CreateTaskDTO`.
+- Las tareas nuevas tienen el atributo `done` a `false`.
 
-Después se ejecutaron de nuevo los tests y se obtuvo `BUILD SUCCESS`.
+Se realizaron pruebas con MockMvc para comprobar el listado y la creación.
 
-## Conservación de los espacios interiores
+## 2. Consulta de tareas por ID
 
-También se añadió el test `createPreservesSpacesBetweenWords()`, que comprueba que los espacios entre palabras se conservan.
+Se implementó `GET /v1/tasks/{id}`.
 
-El test pasó correctamente, confirmando que la normalización elimina únicamente los espacios de los extremos y mantiene los espacios interiores.
+La prueba comprueba que se devuelve la tarea cuando existe y que se responde con `404 Not Found` cuando no se encuentra.
+
+Para ello se utiliza el repositorio en memoria `InMemoryTaskRepository`.
+
+## 3. Normalización del título mediante TDD
+
+Se creó el test `createStripsTitleEdges()` para comprobar que, al crear una tarea con el título `"  Repasar Spring Boot  "`, se eliminan los espacios del principio y del final.
+
+Inicialmente, el servicio guardaba el título sin normalizar, por lo que la prueba fallaba.
+
+Se modificó `TaskService` para utilizar `strip()` antes de guardar la tarea. Después, los tests pasaron correctamente.
+
+También se creó `createPreservesSpacesBetweenWords()` para comprobar que se mantienen los espacios interiores del título.
+
+## 4. Creación de tareas en V2
+
+Se implementó `TaskControllerV2`, con la ruta `POST /v2/tasks`.
+
+La respuesta utiliza el estado `201 Created` e incluye la cabecera `Location`, que indica la ruta de la tarea creada.
+
+La prueba `createsTaskWith201AndLocation()` comprueba el estado HTTP, la cabecera `Location`, el identificador, el título y el valor inicial de `done`.
+
+## 5. Verificación final
+
+Se ejecutó el comando:
+
+`.\mvnw.cmd clean test`
+
+El resultado fue `BUILD SUCCESS`, por lo que todas las pruebas automatizadas finalizaron correctamente.
