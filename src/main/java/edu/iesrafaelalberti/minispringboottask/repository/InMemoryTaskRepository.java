@@ -2,10 +2,13 @@
 package edu.iesrafaelalberti.minispringboottask.repository;
 
 import edu.iesrafaelalberti.minispringboottask.SimpleTask;
+
+import edu.iesrafaelalberti.minispringboottask.SimpleTask;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class InMemoryTaskRepository implements TaskRepository {
@@ -17,4 +20,17 @@ public class InMemoryTaskRepository implements TaskRepository {
         tasks.add(task);
         return task;
     }
+
+    @Override
+    public List<SimpleTask> findAll() {
+        return tasks;
+    }
+
+    @Override
+    public Optional<SimpleTask> findById(Long id) {
+        return tasks.stream()
+                .filter(task -> task.getId().equals(id))
+                .findFirst();
+    }
 }
+
