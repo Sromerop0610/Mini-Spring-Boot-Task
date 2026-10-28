@@ -44,3 +44,7 @@ Se ejecutó el comando:
 `.\mvnw.cmd clean test`
 
 El resultado fue `BUILD SUCCESS`, por lo que todas las pruebas automatizadas finalizaron correctamente.
+
+## 6. Asistencia de IA
+
+Se ha utilizado chatgpt para comprender los requisitos de la actividad
