@@ -10,19 +10,13 @@ import org.springframework.stereotype.Service;
 public class TaskService {
 
     private final TaskRepository repository;
-    private long nextId = 1;
 
     public TaskService(TaskRepository repository) {
         this.repository = repository;
     }
 
     public SimpleTask createTask(CreateTaskDTO dto) {
-        SimpleTask task = new SimpleTask(
-                nextId++,
-                dto.title().strip(),
-                false
-        );
-
+        SimpleTask task = new SimpleTask(null, dto.title().strip(), false);
         return repository.save(task);
     }
 }
